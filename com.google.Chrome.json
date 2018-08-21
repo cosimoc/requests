@@ -12,6 +12,16 @@
     ],
     "modules": [
         {
+            "name": "patchelf",
+            "sources": [
+	        {
+                    "type": "archive",
+                    "url": "https://nixos.org/releases/patchelf/patchelf-0.9/patchelf-0.9.tar.bz2",
+                    "sha256": "a0f65c1ba148890e9f2f7823f4bedf7ecad5417772f64f994004f59a39014f83"
+                }
+            ]
+        },
+        {
             "name": "google-chrome-launcher",
             "buildsystem": "simple",
             "sources": [
@@ -44,6 +54,10 @@
                 },
                 {
                     "type": "file",
+		    "path": "set-elf-linker"
+                },
+                {
+                    "type": "file",
                     "path": "product_logo_64.png"
                 },
                 {
@@ -55,20 +69,13 @@
                 "install -d /app/bin",
                 "install google-chrome-launcher /app/bin/google-chrome-launcher",
 
+		"install set-elf-linker /app/bin/set-elf-linker",
+		"chmod +x /app/bin/set-elf-linker",
+
                 "chmod +x metadata/metadata-writer",
                 "cd metadata && ./metadata-writer",
 
                 "for icon_size in 64 128; do install -d /app/share/icons/hicolor/${icon_size}x${icon_size}/apps; install -m644 product_logo_${icon_size}.png /app/share/icons/hicolor/${icon_size}x${icon_size}/apps/google-chrome.png; done"
-            ]
-        },
-        {
-            "name": "libXScrnSaver",
-            "sources": [
-	        {
-                    "type": "archive",
-                    "url": "https://www.x.org/releases/individual/lib/libXScrnSaver-1.2.3.tar.bz2",
-                    "sha256": "f917075a1b7b5a38d67a8b0238eaab14acd2557679835b154cf2bca576e89bf8"
-                }
             ]
         },
         {
@@ -99,7 +106,8 @@
                         "tar xf data.tar.xz",
                         "rm -f control.tar.gz data.tar.xz debian-binary",
                         "chmod a+xr .",
-                        "for icon_size in 16 22 24 32 48 64 128 256; do install -d export/share/icons/hicolor/${icon_size}x${icon_size}/apps; install -m644 opt/google/chrome/product_logo_${icon_size}.png export/share/icons/hicolor/${icon_size}x${icon_size}/apps/com.google.Chrome.png; done"
+                        "for icon_size in 16 22 24 32 48 64 128 256; do install -d export/share/icons/hicolor/${icon_size}x${icon_size}/apps; install -m644 opt/google/chrome/product_logo_${icon_size}.png export/share/icons/hicolor/${icon_size}x${icon_size}/apps/com.google.Chrome.png; done",
+			"set-elf-linker"
                     ]
                 }
             ],

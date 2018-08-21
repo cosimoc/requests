@@ -1,0 +1,5 @@
+#!/bin/bash
+
+patchelf --set-interpreter /var/lib/flatpak/runtime/org.freedesktop.Platform/x86_64/1.6/ecd4ef145f5663049aed15c11cbcbd2eeebfc1f2352e13871d4a3fe29a25f57b/files/lib/ld-linux-x86-64.so.2 opt/google/chrome/chrome
+patchelf --remove-rpath opt/google/chrome/chrome
+patchelf --force-rpath --set-rpath /var/lib/flatpak/runtime/org.freedesktop.Platform/x86_64/1.6/ecd4ef145f5663049aed15c11cbcbd2eeebfc1f2352e13871d4a3fe29a25f57b/files/lib opt/google/chrome/chrome
